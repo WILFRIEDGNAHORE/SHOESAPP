@@ -1,0 +1,102 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{%block content %}
+<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>Shop Category page</h1>
+					<nav class="d-flex align-items-center">
+						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="#">Shop<span class="lnr lnr-arrow-right"></span></a>
+						<a href="category.html">Fashon Category</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+    <br/>
+    
+	<!-- End Banner Area -->
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-xl-9 col-lg-8 col-md-7">
+				<!-- Start Filter Bar -->
+				
+				<!-- End Filter Bar -->
+				<!-- Start Best Seller -->
+				<section class="lattest-product-area pb-40 category-list">
+					<div class="row">
+						<!-- single product -->
+						{% for category in categories %}
+					 
+                        <div class="col-lg-3 col-md-3">
+                            <div class="single-deal">
+                                <div class="overlay"></div>
+                                <img class="img-fluid w-100" src="{{category.image.url}}" alt="">
+                                <a href="{{category.image.url}}" class="img-pop-up" target="_blank">
+                                    <div class="deal-details">
+                                        <h6 class="deal-title">{{category.name}}</h6>
+										{% for category in categories %}
+                                        <a href="{% url 'category' category %}" class="social-info">
+                                            <span class="lnr lnr-move"></span>
+                                            <p class="hover-text">view more</p>
+                                        </a>
+										{% endfor %}
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+					
+				{% endfor %}
+						
+				</section>
+				<section class="related-product-area section_gap_bottom">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-6 text-center">
+				<div class="section-title">
+					<h1>Deals of the Week</h1>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+						magna aliqua.</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-9">
+				<div class="row">
+					{% for product in products %}
+						{% if product.is_sale %}
+					<div class="col-lg-4 col-md-4 col-sm-6">
+						<div class="single-related-product d-flex">
+							<a href="{% url 'product' product.id%}"><img src="{{product.image.url}}" alt=""></a>
+							<div class="desc">
+								<a href="{% url 'product' product.id%}" class="title">{{product.name}}</a>
+								<div class="price">
+									<h6>$189.00</h6>
+									<h6 class="l-through">${{product.price}}</h6>
+								</div>
+							</div>
+						</div>
+					</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+			<div class="col-lg-3">
+				<div class="ctg-right">
+					<a href="#" target="_blank">
+						<img class="img-fluid d-block mx-auto" src="img/category/c5.jpg" alt="">
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

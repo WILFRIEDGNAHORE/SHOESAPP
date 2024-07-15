@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header-->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>USER INFO</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="{% url 'home' %}">HOME<span class="lnr lnr-arrow-right"></span></a>
+                    
+                    <a href="#">PROFILE<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="#">UESER INFO</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <div class="container">
+        	<div class="row">
+        		
+        			<div class="col-md-6 offset-md-3">
+
+        				<br/><br/>
+                    <strong>Billing Information</strong>
+                    <br/><br/>
+<form method="POST" action="{% url 'update_info' %}">
+    {% csrf_token %}
+    
+    {{ form.as_p }}
+    <br/><br/>
+    <strong>Shipping Information</strong>
+    <br/><br/>
+    
+    {{ shipping_form.as_p }}
+
+
+    <br/><br/>
+    <button type="submit" class="btn btn-secondary">
+      Update Profile
+    </button>
+</form>
+
+<br/><br/>
+
+
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+        			</div>
+        		
+        	</div>
+        </div>
+
+{% endblock %}

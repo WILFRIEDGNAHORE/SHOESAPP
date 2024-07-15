@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header-->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>USER PROFILE</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="{% url 'home' %}">HOME<span class="lnr lnr-arrow-right"></span></a>
+                    
+                    <a href="#">PROFILE<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="#">UESER PROFILE</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <div class="container">
+        	<div class="row">
+        		
+        			<div class="col-md-6 offset-md-3">
+
+        				<br/><br/>
+<form method="POST" action="{% url 'update_user' %}">
+    {% csrf_token %}
+    
+    {{ user_form.as_p }}
+    <br/><br/>
+    <button type="submit" class="btn primary-btn">
+      Update Profile
+    </button>
+</form>
+
+<br/><br/>
+<a href="{% url 'update_password' %}" class="btn primary-btn">Update Password</a>
+
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+        			</div>
+        		
+        	</div>
+        </div>
+
+{% endblock %}
+

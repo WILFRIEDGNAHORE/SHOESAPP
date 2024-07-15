@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Header-->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Shopping Cart</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="category.html">Cart</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<br/>
+
+
+
+<!-- Cart Table -->
+<section class="cart_area">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if cart_products %}
+                            {% for product in cart_products %}
+                                <tr>
+                                    <td>
+                                        <div class="media">
+                                            <div class="d-flex">
+                                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                            </div>
+                                            <div class="media-body">
+                                                <p>{{ product.name }}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><h5>${{ product.price }}</h5></td>
+                                    <td>
+                                        <select class="form-select form-select-sm" id="select{{ product.id }}">
+                                            {% for key, value in quantities.items %}
+                                                {% if key == product.id|slugify %}
+                                                    <option selected>{{ value }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </td>
+                                    
+                                </tr>
+                                <tr class="bottom_button">
+                                    <td>
+                                        <button type="button" data-index="{{ product.id }}" class="gray_btn update-cart">Update</button>
+                                        <button type="button" data-index="{{ product.id }}" class="gray_btn delete-product">Remove</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center">There's Nothing In Your Cart...</td>
+                            </tr>
+                        {% endif %}
+                        
+                        <tr class="out_button_area">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div class="checkout_btn_inner d-flex align-items-center">
+                                    <a class="gray_btn" href="{% url 'home' %}">Continue Shopping</a>
+                                    <a href="{% url 'checkout' %}" class="primary-btn">Checkout</a>
+                                    <h3>Total: ${{ totals }}</h3>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Update Cart
+    $(document).on('click', '.update-cart', function(e) {
+        e.preventDefault();
+        var productid = $(this).data('index');
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'cart_update' %}',
+            data: {
+                product_id: $(this).data('index'),
+                product_qty: $('#select' + productid + ' option:selected').text(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json) {
+                location.reload();
+            },
+            error: function(xhr, errmsg, err) {}
+        });
+    });
+
+    // Delete Item From Cart
+    $(document).on('click', '.delete-product', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'cart_delete' %}',
+            data: {
+                product_id: $(this).data('index'),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json) {
+                location.reload();
+            },
+            error: function(xhr, errmsg, err) {}
+        });
+    });
+</script>
+
+{% endblock %}
